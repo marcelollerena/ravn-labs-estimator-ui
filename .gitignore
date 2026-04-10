@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Runtime data
+data/
+
+# Build outputs
+dist/
+build/
+.next/
+.output/
+out/
+.turbo/
+
+# Test coverage
+coverage/
+coverage-integration/
+playwright-report/
+test-results/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Build artifacts
+*.d.ts.map
+*.js.map
+
+# Generated
+routeTree.gen.ts
+
+# Misc
+.wrangler/
+.context/
+promptify-*.md
+app.config.timestamp_*
+
+# Claude Code local settings
+.claude/settings.local.json
