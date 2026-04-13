@@ -42,11 +42,11 @@ Once an area is determined:
 
 1. Read key files in that area (5-10 representative files)
 2. Look for patterns that are:
-
    - **Unusual or unconventional** — Not standard framework/library patterns
    - **Opinionated** — Specific choices that could have gone differently
    - **Tribal** — Things a new developer wouldn't know without being told
    - **Consistent** — Patterns repeated across multiple files
+
 3. Use AskUserQuestion to present findings and let user select:
 
 ```
@@ -90,9 +90,10 @@ Example questions to ask (adapt based on the specific standard):
 For each standard (after completing Step 3's Q&A):
 
 1. Determine the appropriate folder (create if needed):
-
    - `api/`, `database/`, `javascript/`, `css/`, `backend/`, `testing/`, `global/`
+
 2. Check if a related standard file already exists — append to it if so
+
 3. Draft the content and use AskUserQuestion to confirm:
 
 ```

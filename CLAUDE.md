@@ -1,3 +1,17 @@
+@docs/estimator_prd.md
+
+# Product Context Instructions
+
+- The PRD above is the source of truth for the product.
+- Always reason based on the Estimator product described in the PRD.
+- Before implementing anything:
+  1. Understand the feature in the context of the PRD
+  2. Identify assumptions and ambiguities
+  3. Propose a solution aligned with the architecture
+
+- Do NOT implement code without understanding the feature purpose.
+- Prefer simple, incremental implementations aligned with MVP scope.
+
 # The Estimator — AI Agent Instructions
 
 # priority: gates > rules > workflow > agents > skills
@@ -61,46 +75,50 @@ note: pre-commit hook runs lint-staged (ESLint + Prettier) — they do not confl
 ARCHITECTURE:
 pattern: Feature-based (vertical slices) with Functional Core / Imperative Shell
 core:
-  location: packages/shared/src/
-  constraints:
-  - pure functions only — no I/O, no side effects, no throwing
-  - Zod: `.safeParse()` only — never `.parse()` (it throws)
-  - return `Result<T, E>` via neverthrow for all fallible operations
-  - NO imports from apps/*, NestJS, Prisma, or React
+location: packages/shared/src/
+constraints:
+
+- pure functions only — no I/O, no side effects, no throwing
+- Zod: `.safeParse()` only — never `.parse()` (it throws)
+- return `Result<T, E>` via neverthrow for all fallible operations
+- NO imports from apps/\*, NestJS, Prisma, or React
   enforced-by: ESLint no-restricted-imports
-shell:
+  shell:
   location: apps/{api|web}/src/
   constraints:
-  - orchestrates I/O: HTTP, database, logging, fetch
-  - Zod: `.parse()` allowed — wrap in try/catch or pipes at boundaries
-  - calls core functions for domain logic — never contains business rules
-  - generates side effects (IDs, timestamps) and passes them to core
-error-handling:
+- orchestrates I/O: HTTP, database, logging, fetch
+- Zod: `.parse()` allowed — wrap in try/catch or pipes at boundaries
+- calls core functions for domain logic — never contains business rules
+- generates side effects (IDs, timestamps) and passes them to core
+  error-handling:
   core: always `Result<T, E>` — never throw
   shell-nestjs: exception filters catch; services unwrap Results
   shell-web: `.parse()` allowed for API responses; wrap fetches in try/catch
 
 FRAMEWORK PATTERNS:
 nestjs (api):
-  - feature modules in `src/<feature>/<feature>.module.ts`
-  - controller → service → repository (one file each per feature)
-  - validation via ZodValidationPipe (no class-validator DTOs)
-  - Zod schemas in `src/<feature>/<feature>.schema.ts`
-  - auth via WorkOS AuthKit guard
-  - global exception filter, response envelope interceptor
-  - Prisma via shared PrismaService (injected into repositories)
-tanstack-start (web):
-  - routes in `src/routes/`, components in `src/components/`
-  - data loading via route loaders (`createFileRoute`)
-  - ShadCN + Tailwind for UI components
-  - no global state management — use route loader data
+
+- feature modules in `src/<feature>/<feature>.module.ts`
+- controller → service → repository (one file each per feature)
+- validation via ZodValidationPipe (no class-validator DTOs)
+- Zod schemas in `src/<feature>/<feature>.schema.ts`
+- auth via WorkOS AuthKit guard
+- global exception filter, response envelope interceptor
+- Prisma via shared PrismaService (injected into repositories)
+  tanstack-start (web):
+- routes in `src/routes/`, components in `src/components/`
+- data loading via route loaders (`createFileRoute`)
+- ShadCN + Tailwind for UI components
+- no global state management — use route loader data
 
 DEPENDENCIES:
+
 - prefer existing deps over new packages
 - new packages require clear justification
 - pin exact versions in apps, use ranges in packages/shared
 
 ENVIRONMENT:
+
 - env vars validated via Zod schema at app startup
 - secrets never hardcoded — use `.env` files (gitignored)
 - `.env.example` maintained with all required keys (no values)
@@ -171,3 +189,11 @@ action: run all checks in order (typecheck → lint → tests) regardless of ear
 boundary: NEVER fix code, NEVER propose changes — only report results
 report: PASS/FAIL/TIMEOUT per check
 verdict: ALL PASS (all green) | PARTIAL (mixed) | ISSUES FOUND (all failed)
+
+## Specs workflow
+
+- Product vision lives in `docs/estimator_prd.md`
+- Feature specifications live in `specs/*.md`
+- Do not implement large features directly from the PRD
+- Always create or update a feature spec before coding
+- Implement one task at a time from the selected spec
