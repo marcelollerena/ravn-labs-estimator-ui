@@ -5,7 +5,7 @@ import tseslint from 'typescript-eslint';
 export default tseslint.config(
   ...baseConfig,
   {
-    ignores: ['src/routeTree.gen.ts'],
+    ignores: ['src/routeTree.gen.ts', 'docs/**'],
   },
   {
     languageOptions: {

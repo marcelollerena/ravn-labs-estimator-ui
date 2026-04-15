@@ -1,0 +1,13 @@
+/* Design Tokens for Estimator */
+
+:root {
+  /* Colors — Tailwind palette names */
+  --color-primary: blue;    /* Buttons, links, active states */
+  --color-secondary: slate; /* Tags, badges, secondary surfaces */
+  --color-neutral: zinc;    /* Backgrounds, text, borders */
+
+  /* Typography — Google Fonts */
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}

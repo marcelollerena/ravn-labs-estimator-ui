@@ -3,6 +3,8 @@
 # Product Context Instructions
 
 - The PRD above is the source of truth for the product.
+- The Design OS `product-plan` is the source of truth for UI direction, layout intent, screen hierarchy, states, and component inspiration for the exported sections.
+- For UI work in `apps/web`, always consult the relevant `product-plan` files before implementing.
 - Always reason based on the Estimator product described in the PRD.
 - Before implementing anything:
   1. Understand the feature in the context of the PRD
