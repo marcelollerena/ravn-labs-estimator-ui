@@ -1,0 +1,60 @@
+{
+  "estimationRequests": [
+    {
+      "id": "er-001",
+      "title": "Mobile Banking App",
+      "rawContent": "# Mobile Banking App PRD\n\n## Overview\nA consumer-facing mobile banking application that enables users to manage accounts, transfer funds, pay bills, and deposit checks via camera capture. The app targets iOS and Android with a shared React Native codebase...",
+      "sourceFormat": "pdf",
+      "status": "confirmed",
+      "projectOverview": "A consumer-facing mobile banking application enabling account management, fund transfers, bill payments, and mobile check deposits. Targets iOS and Android via React Native with a Node.js backend. Must comply with PCI DSS and SOC 2 requirements. Initial release scoped to US market with English language support.",
+      "technicalConstraints": [
+        "React Native for cross-platform mobile (iOS + Android)",
+        "Node.js backend with PostgreSQL",
+        "PCI DSS compliance required for payment processing",
+        "SOC 2 Type II certification required",
+        "Must integrate with Plaid for bank account linking",
+        "Biometric authentication (Face ID / fingerprint) required"
+      ],
+      "ambiguities": [
+        "No mention of offline mode — should the app function without connectivity?",
+        "Bill pay frequency unclear — one-time only or recurring scheduled payments?",
+        "Check deposit limits not specified — what are the daily and monthly caps?",
+        "Push notification strategy not detailed — what events trigger notifications?",
+        "No accessibility requirements stated — WCAG 2.1 AA compliance expected?"
+      ],
+      "implicitRequirements": [
+        "Session timeout and automatic logout for security compliance",
+        "Transaction history with search and filtering",
+        "Account balance caching for fast load times",
+        "Error handling for failed transfers with retry mechanism",
+        "Rate limiting on sensitive endpoints (login, transfers)"
+      ],
+      "features": [
+        { "id": "rf-001", "name": "Account Dashboard", "description": "Overview screen showing all linked accounts with real-time balances, recent transactions, and quick-action shortcuts for common operations." },
+        { "id": "rf-002", "name": "Fund Transfers", "description": "Transfer money between own accounts or to external accounts via ACH. Includes transfer scheduling, amount validation, and confirmation flow with receipt." },
+        { "id": "rf-003", "name": "Bill Payment", "description": "Search and add billers, enter payment amounts, select payment dates. Support for one-time payments with payee management." },
+        { "id": "rf-004", "name": "Mobile Check Deposit", "description": "Capture front and back of check using device camera. Image quality validation, amount entry, and deposit confirmation with hold period display." },
+        { "id": "rf-005", "name": "Authentication & Security", "description": "Login with email/password plus biometric unlock. Multi-factor authentication for sensitive operations. Session management and device trust." },
+        { "id": "rf-006", "name": "Plaid Account Linking", "description": "Integrate Plaid Link SDK for connecting external bank accounts. Handle OAuth flows, account verification, and connection status management." },
+        { "id": "rf-007", "name": "Transaction History", "description": "Paginated list of all transactions across accounts with search, date range filtering, category tags, and export to CSV." },
+        { "id": "rf-008", "name": "Push Notifications", "description": "Real-time alerts for incoming deposits, completed transfers, low balance warnings, and security events. User-configurable notification preferences." }
+      ],
+      "createdAt": "2026-04-10T14:30:00Z",
+      "updatedAt": "2026-04-10T15:45:00Z"
+    },
+    {
+      "id": "er-006",
+      "title": "",
+      "rawContent": "",
+      "sourceFormat": "pdf",
+      "status": "draft",
+      "projectOverview": "",
+      "technicalConstraints": [],
+      "ambiguities": [],
+      "implicitRequirements": [],
+      "features": [],
+      "createdAt": "2026-04-13T11:00:00Z",
+      "updatedAt": "2026-04-13T11:00:00Z"
+    }
+  ]
+}
