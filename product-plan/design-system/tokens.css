@@ -1,0 +1,13 @@
+/* Design Tokens for Estimator */
+
+:root {
+  /* Colors */
+  --color-primary: theme('colors.blue');
+  --color-secondary: theme('colors.slate');
+  --color-neutral: theme('colors.zinc');
+
+  /* Typography */
+  --font-heading: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
