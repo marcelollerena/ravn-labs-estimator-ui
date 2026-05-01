@@ -17,5 +17,5 @@ Senior engineers review the AI estimate, accept or adjust features with mandator
 ### 4. Estimate Output & Export
 Generate internal (full detail) and client-ready (clean) estimate documents with PDF, Markdown, and web link export options.
 
-### 5. Historical Projects & Calibration
-Seed and manage past project data, enter actuals post-project, track estimation accuracy, and surface AI improvement trends and human adjustment patterns.
+### 5. Calibration
+Enter actuals post-project, capture qualitative feedback per feature, record real team dynamics and effort distribution, and track estimation accuracy over time.
