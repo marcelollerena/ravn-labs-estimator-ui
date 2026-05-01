@@ -1,0 +1,199 @@
+{
+  "_meta": {
+    "models": {
+      "Calibration": "Post-project calibration record comparing estimated values to actuals, with qualitative feedback per feature and overall team/effort observations.",
+      "FeatureCalibration": "A feature with its original estimate and actual outcome, including hours, complexity, and qualitative reasoning.",
+      "TechEffortEntry": "A technology from the project's stack with the actual percentage of total effort spent on it.",
+      "OriginalTeamRole": "A role from the original AI team recommendation, preserved as read-only reference.",
+      "CalibrationSummary": "Top-level actuals vs estimates for hours, duration, team size, complexity, and confidence."
+    },
+    "relationships": [
+      "Calibration references one Estimate (via estimateId)",
+      "Calibration has many FeatureCalibration",
+      "Calibration has many TechEffortEntry",
+      "Calibration has many OriginalTeamRole"
+    ]
+  },
+  "calibration": {
+    "id": "cal-001",
+    "estimateId": "est-001",
+    "projectName": "HealthBridge Patient Portal",
+    "calibratorName": "Carlos Mendez",
+    "status": "draft",
+    "createdAt": "2026-08-20T10:00:00Z",
+    "completedAt": null,
+    "summary": {
+      "actualTotalHours": 920,
+      "actualDurationWeeks": 16,
+      "actualTeamSize": 7,
+      "actualComplexity": "high",
+      "estimatedTotalHours": { "low": 620, "likely": 840, "high": 1120 },
+      "estimatedDurationWeeks": 14,
+      "estimatedComplexity": "high",
+      "estimatedConfidence": 0.72,
+      "estimatedHeadcount": 6
+    },
+    "features": [
+      {
+        "featureId": "feat-001",
+        "featureName": "Patient Dashboard",
+        "description": "Personalized landing page with health summary, upcoming appointments, recent messages, and medication reminders.",
+        "estimatedComplexity": "high",
+        "estimatedHours": { "low": 80, "likely": 110, "high": 150 },
+        "estimatedConfidence": 0.75,
+        "actualHours": 125,
+        "actualComplexity": "high",
+        "feedback": "The dashboard itself was straightforward, but integrating real-time data from the EHR for the health summary widget took longer than expected. The EHR API had rate limiting issues we hadn't anticipated, requiring a caching layer that added about 15 extra hours.",
+        "status": "calibrated",
+        "assumptions": [
+          "EHR sandbox credentials available in first two weeks",
+          "Dashboard uses pre-built charting components",
+          "Health summary pulls from a single EHR endpoint"
+        ],
+        "dependencies": ["EHR Integration Layer", "Authentication System"]
+      },
+      {
+        "featureId": "feat-002",
+        "featureName": "Appointment Scheduling",
+        "description": "Calendar-based scheduling with provider availability, appointment types, and automated reminders.",
+        "estimatedComplexity": "high",
+        "estimatedHours": { "low": 90, "likely": 120, "high": 160 },
+        "estimatedConfidence": 0.7,
+        "actualHours": 115,
+        "actualComplexity": "high",
+        "feedback": "Came in slightly under estimate. The calendar component library we chose (react-big-calendar) handled most of the complex scheduling logic. Provider availability sync with the EHR was smoother than expected because they had a modern FHIR endpoint for this.",
+        "status": "calibrated",
+        "assumptions": [
+          "Provider availability is managed in the EHR, not built from scratch",
+          "Reminders use a third-party notification service",
+          "No recurring appointment patterns in MVP"
+        ],
+        "dependencies": ["EHR Integration Layer", "Notification Service"]
+      },
+      {
+        "featureId": "feat-003",
+        "featureName": "Secure Messaging",
+        "description": "HIPAA-compliant messaging between patients and care teams with attachments and read receipts.",
+        "estimatedComplexity": "high",
+        "estimatedHours": { "low": 100, "likely": 140, "high": 180 },
+        "estimatedConfidence": 0.65,
+        "actualHours": 160,
+        "actualComplexity": "very_high",
+        "feedback": "This was our biggest miss. HIPAA encryption requirements for messages at rest and in transit were more involved than anticipated. We had to implement a custom key management layer because the off-the-shelf solution didn't meet the auditor's requirements. The attachment handling also needed a separate encrypted storage pipeline. Complexity should have been rated very_high from the start.",
+        "status": "calibrated",
+        "assumptions": [
+          "End-to-end encryption via existing library",
+          "Attachment size limited to 10MB",
+          "Read receipts are simple database flags"
+        ],
+        "dependencies": ["Authentication System", "HIPAA Compliance Layer"]
+      },
+      {
+        "featureId": "feat-004",
+        "featureName": "Telehealth Video Visits",
+        "description": "Browser-based video consultations with waiting room, screen sharing, and session recording.",
+        "estimatedComplexity": "very_high",
+        "estimatedHours": { "low": 120, "likely": 160, "high": 220 },
+        "estimatedConfidence": 0.6,
+        "actualHours": 175,
+        "actualComplexity": "very_high",
+        "feedback": "Slightly over the likely estimate but well within the range. Twilio Video SDK handled most of the heavy lifting as assumed. The extra time went into the waiting room UX and session recording compliance (consent flows, storage policies). Screen sharing was essentially free from the SDK.",
+        "status": "calibrated",
+        "assumptions": [
+          "Video powered by Twilio or similar SDK",
+          "Recording stored in HIPAA-compliant cloud storage",
+          "No native mobile app — browser only"
+        ],
+        "dependencies": ["HIPAA Compliance Layer", "Cloud Storage"]
+      },
+      {
+        "featureId": "feat-005",
+        "featureName": "Insurance Verification",
+        "description": "Real-time insurance eligibility checks with coverage details and prior authorization status.",
+        "estimatedComplexity": "medium",
+        "estimatedHours": { "low": 60, "likely": 80, "high": 110 },
+        "estimatedConfidence": 0.68,
+        "actualHours": 72,
+        "actualComplexity": "medium",
+        "feedback": "Came in under estimate. The insurance verification API (Eligible) was well-documented and their sandbox was reliable. The prior authorization status integration was simpler than expected — just a status polling endpoint. Good estimate overall.",
+        "status": "calibrated",
+        "assumptions": [
+          "Using a third-party verification API",
+          "Coverage details are display-only, not editable",
+          "Prior auth is status check only, not submission"
+        ],
+        "dependencies": ["Insurance API Integration"]
+      },
+      {
+        "featureId": "feat-006",
+        "featureName": "Role-Based Access Control",
+        "description": "Multi-tier access system for patients, providers, nurses, and administrators with granular permissions.",
+        "estimatedComplexity": "high",
+        "estimatedHours": { "low": 70, "likely": 100, "high": 130 },
+        "estimatedConfidence": 0.78,
+        "actualHours": 85,
+        "actualComplexity": "medium",
+        "feedback": "Auth0 handled most of the complexity. We used their RBAC features directly rather than building a custom permission system. The granular permissions turned out to be less granular than initially scoped — the client simplified to 4 roles with fixed permission sets. This saved significant time. Actual complexity was medium, not high.",
+        "status": "calibrated",
+        "assumptions": [
+          "Auth0 or similar identity provider",
+          "Four primary roles defined",
+          "Permissions are role-based, not attribute-based"
+        ],
+        "dependencies": ["Authentication System"]
+      },
+      {
+        "featureId": "feat-007",
+        "featureName": "Medical Records Access",
+        "description": "Patient-facing view of lab results, imaging reports, and clinical notes from the EHR.",
+        "estimatedComplexity": "medium",
+        "estimatedHours": { "low": 50, "likely": 70, "high": 95 },
+        "estimatedConfidence": 0.72,
+        "actualHours": null,
+        "actualComplexity": "medium",
+        "feedback": "",
+        "status": "pending",
+        "assumptions": [
+          "Read-only display from EHR data",
+          "Standard FHIR resource types",
+          "No document upload from patient side"
+        ],
+        "dependencies": ["EHR Integration Layer", "HIPAA Compliance Layer"]
+      },
+      {
+        "featureId": "feat-008",
+        "featureName": "Notification Center",
+        "description": "Centralized notification hub for appointments, messages, lab results, and system alerts with preference management.",
+        "estimatedComplexity": "medium",
+        "estimatedHours": { "low": 40, "likely": 60, "high": 80 },
+        "estimatedConfidence": 0.8,
+        "actualHours": null,
+        "actualComplexity": "medium",
+        "feedback": "",
+        "status": "pending",
+        "assumptions": [
+          "Push notifications via Firebase or similar",
+          "Email notifications via SendGrid",
+          "Preference management is a simple settings page"
+        ],
+        "dependencies": ["Notification Service", "Patient Dashboard"]
+      }
+    ],
+    "teamFeedback": "The team performed well overall despite the scope expansion on Secure Messaging. The original estimate of 6 people was accurate for the first 10 weeks, but we brought in a 7th person (DevOps engineer) at week 8 when we realized the HIPAA infrastructure work was falling behind. This addition was critical — they set up the encrypted storage pipeline and CI/CD for the compliance layer, unblocking two backend developers who had been context-switching between feature work and infrastructure. The senior frontend engineer exceeded expectations by also contributing to the Node.js API layer for the messaging feature, which helped absorb some of the overrun. One lesson learned: for healthcare projects, always budget a dedicated DevOps/infrastructure person from the start rather than assuming the backend team can absorb that work.",
+    "originalTeamRoles": [
+      { "role": "Backend Engineer", "count": 2, "seniority": "senior", "reasoning": "Core API development, EHR integrations, and HIPAA compliance implementation" },
+      { "role": "Frontend Engineer", "count": 1, "seniority": "senior", "reasoning": "Complex UI components, real-time features, and responsive design" },
+      { "role": "Frontend Engineer", "count": 1, "seniority": "mid", "reasoning": "Supporting UI development, forms, and standard CRUD views" },
+      { "role": "QA Engineer", "count": 1, "seniority": "mid", "reasoning": "HIPAA compliance testing, integration testing, and security verification" },
+      { "role": "UX Designer", "count": 1, "seniority": "senior", "reasoning": "Healthcare UX patterns, accessibility compliance, and patient-facing flows" }
+    ],
+    "techEffortBreakdown": [
+      { "id": "tech-001", "technology": "React", "percentage": 30 },
+      { "id": "tech-002", "technology": "Node.js", "percentage": 35 },
+      { "id": "tech-003", "technology": "PostgreSQL", "percentage": 15 },
+      { "id": "tech-004", "technology": "AWS", "percentage": 10 },
+      { "id": "tech-005", "technology": "Twilio", "percentage": 10 }
+    ],
+    "effortBreakdownReasoning": "Node.js took the largest share because the backend handled EHR integrations, HIPAA encryption, and the messaging pipeline — all server-intensive work. React was the second largest with complex real-time UIs (video, messaging, dashboard). PostgreSQL effort was moderate due to schema design for encrypted records and audit logging. AWS and Twilio were smaller but critical — AWS for the HIPAA-compliant infrastructure (S3 encryption, KMS) and Twilio for the video SDK integration. If we had budgeted DevOps from the start, AWS effort would likely have been more efficient."
+  }
+}
