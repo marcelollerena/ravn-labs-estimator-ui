@@ -23,14 +23,14 @@ const navigationGroups: NavGroup[] = [
   {
     label: 'Estimation',
     items: [
-      { label: 'Estimates', href: '/estimates', icon: FileText, isActive: true },
+      { label: 'Estimates', href: '/estimates', icon: FileText },
       { label: 'Reviews', href: '/reviews', icon: ClipboardCheck },
     ],
   },
   {
     label: 'Data',
     items: [
-      { label: 'Projects', href: '/projects', icon: FolderOpen },
+      { label: 'Projects', href: '/projects', icon: FolderOpen, isActive: true },
       { label: 'Calibration', href: '/calibration', icon: BarChart3 },
     ],
   },

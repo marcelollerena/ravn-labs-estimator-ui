@@ -12,20 +12,15 @@ Add to your HTML `<head>` or CSS:
 
 ## Font Usage
 
-- **Headings:** Inter (600-700 weight)
-- **Body text:** Inter (400-500 weight)
-- **Code/technical:** JetBrains Mono (400-500 weight)
+- **Headings:** Inter (semi-bold, 15px for page titles)
+- **Body text:** Inter (regular, 13px for content, 12px for secondary)
+- **Code/technical:** JetBrains Mono (numbers, IDs, timestamps, code)
 
-## CSS Application
+## Typography Scale
 
-```css
-font-family: 'Inter', system-ui, sans-serif;
-font-family: 'JetBrains Mono', monospace;
-```
-
-## Tailwind Classes
-
-```
-font-['Inter',system-ui,sans-serif]
-font-['JetBrains_Mono',monospace]
-```
+- Page title: 15px, font-semibold
+- Section header: 12px, font-medium, uppercase, tracking-wider
+- Body: 13px, font-normal
+- Secondary: 12px, text-zinc-500
+- Caption: 11px, font-medium, uppercase, tracking-wider
+- Monospace numbers: JetBrains Mono, various sizes

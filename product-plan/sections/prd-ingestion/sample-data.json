@@ -1,4 +1,13 @@
 {
+  "_meta": {
+    "models": {
+      "EstimationRequest": "A parsed PRD that serves as the input to the estimation pipeline. Contains the raw document content, AI-extracted structure (overview, features, constraints, ambiguities, implicit requirements), and a status tracking its lifecycle from draft through confirmation to estimation.",
+      "RequestFeature": "A discrete feature extracted from a PRD during ingestion. Belongs to an EstimationRequest and carries a name and description that feed into the estimation step."
+    },
+    "relationships": [
+      "EstimationRequest has many RequestFeature"
+    ]
+  },
   "estimationRequests": [
     {
       "id": "er-001",
@@ -30,17 +39,248 @@
         "Rate limiting on sensitive endpoints (login, transfers)"
       ],
       "features": [
-        { "id": "rf-001", "name": "Account Dashboard", "description": "Overview screen showing all linked accounts with real-time balances, recent transactions, and quick-action shortcuts for common operations." },
-        { "id": "rf-002", "name": "Fund Transfers", "description": "Transfer money between own accounts or to external accounts via ACH. Includes transfer scheduling, amount validation, and confirmation flow with receipt." },
-        { "id": "rf-003", "name": "Bill Payment", "description": "Search and add billers, enter payment amounts, select payment dates. Support for one-time payments with payee management." },
-        { "id": "rf-004", "name": "Mobile Check Deposit", "description": "Capture front and back of check using device camera. Image quality validation, amount entry, and deposit confirmation with hold period display." },
-        { "id": "rf-005", "name": "Authentication & Security", "description": "Login with email/password plus biometric unlock. Multi-factor authentication for sensitive operations. Session management and device trust." },
-        { "id": "rf-006", "name": "Plaid Account Linking", "description": "Integrate Plaid Link SDK for connecting external bank accounts. Handle OAuth flows, account verification, and connection status management." },
-        { "id": "rf-007", "name": "Transaction History", "description": "Paginated list of all transactions across accounts with search, date range filtering, category tags, and export to CSV." },
-        { "id": "rf-008", "name": "Push Notifications", "description": "Real-time alerts for incoming deposits, completed transfers, low balance warnings, and security events. User-configurable notification preferences." }
+        {
+          "id": "rf-001",
+          "name": "Account Dashboard",
+          "description": "Overview screen showing all linked accounts with real-time balances, recent transactions, and quick-action shortcuts for common operations."
+        },
+        {
+          "id": "rf-002",
+          "name": "Fund Transfers",
+          "description": "Transfer money between own accounts or to external accounts via ACH. Includes transfer scheduling, amount validation, and confirmation flow with receipt."
+        },
+        {
+          "id": "rf-003",
+          "name": "Bill Payment",
+          "description": "Search and add billers, enter payment amounts, select payment dates. Support for one-time payments with payee management."
+        },
+        {
+          "id": "rf-004",
+          "name": "Mobile Check Deposit",
+          "description": "Capture front and back of check using device camera. Image quality validation, amount entry, and deposit confirmation with hold period display."
+        },
+        {
+          "id": "rf-005",
+          "name": "Authentication & Security",
+          "description": "Login with email/password plus biometric unlock. Multi-factor authentication for sensitive operations. Session management and device trust."
+        },
+        {
+          "id": "rf-006",
+          "name": "Plaid Account Linking",
+          "description": "Integrate Plaid Link SDK for connecting external bank accounts. Handle OAuth flows, account verification, and connection status management."
+        },
+        {
+          "id": "rf-007",
+          "name": "Transaction History",
+          "description": "Paginated list of all transactions across accounts with search, date range filtering, category tags, and export to CSV."
+        },
+        {
+          "id": "rf-008",
+          "name": "Push Notifications",
+          "description": "Real-time alerts for incoming deposits, completed transfers, low balance warnings, and security events. User-configurable notification preferences."
+        }
       ],
       "createdAt": "2026-04-10T14:30:00Z",
       "updatedAt": "2026-04-10T15:45:00Z"
+    },
+    {
+      "id": "er-002",
+      "title": "Analytics Dashboard",
+      "rawContent": "## Analytics Dashboard\n\nWe need a dashboard for our internal teams to visualize key business metrics...",
+      "sourceFormat": "markdown",
+      "status": "draft",
+      "projectOverview": "An internal analytics dashboard for visualizing business metrics across sales, marketing, and product usage. Displays KPIs, time-series charts, and filterable data tables. Built as a web application with role-based access control.",
+      "technicalConstraints": [
+        "Next.js frontend with server-side rendering",
+        "PostgreSQL data warehouse via read replicas",
+        "Must support datasets up to 10M rows with sub-second query times",
+        "Role-based access: admin, analyst, viewer"
+      ],
+      "ambiguities": [
+        "Data refresh frequency not specified — real-time, hourly, or daily?",
+        "Export formats unclear — PDF, CSV, both?",
+        "No mention of alerting — should users receive threshold-based alerts?"
+      ],
+      "implicitRequirements": [
+        "Dashboard state persistence (saved filters, date ranges)",
+        "Loading skeletons for chart rendering",
+        "Responsive layout for tablet use in meetings"
+      ],
+      "features": [
+        {
+          "id": "rf-009",
+          "name": "KPI Cards",
+          "description": "Top-level metric cards showing current values, period-over-period change, and sparkline trend indicators for key business metrics."
+        },
+        {
+          "id": "rf-010",
+          "name": "Time-Series Charts",
+          "description": "Interactive line and area charts with configurable date ranges, comparison periods, and drill-down capabilities."
+        },
+        {
+          "id": "rf-011",
+          "name": "Data Tables",
+          "description": "Sortable, filterable tables with pagination for detailed record inspection. Column visibility controls and inline search."
+        },
+        {
+          "id": "rf-012",
+          "name": "Saved Views",
+          "description": "Persist filter configurations, date ranges, and chart selections as named views. Share views with team members via URL."
+        }
+      ],
+      "createdAt": "2026-04-11T09:00:00Z",
+      "updatedAt": "2026-04-11T09:00:00Z"
+    },
+    {
+      "id": "er-003",
+      "title": "E-commerce Platform Rebuild",
+      "rawContent": "The attached document describes our platform rebuild requirements...",
+      "sourceFormat": "docx",
+      "status": "draft",
+      "projectOverview": "Full rebuild of an existing e-commerce platform from a monolithic PHP application to a headless architecture. New storefront in Next.js, order management backend in Node.js, and migration of 50K+ existing products and 200K+ customer records.",
+      "technicalConstraints": [
+        "Headless commerce architecture (Medusa.js or custom)",
+        "Next.js storefront with ISR for product pages",
+        "Must support 500 concurrent users during peak sales",
+        "Stripe for payments, Shippo for shipping rates",
+        "Data migration from legacy MySQL to PostgreSQL",
+        "Existing product image CDN must be preserved"
+      ],
+      "ambiguities": [
+        "Multi-currency support mentioned but no target currencies listed",
+        "Loyalty program referenced but no point system rules defined",
+        "Inventory sync frequency with warehouse system not specified",
+        "Return/refund policy rules not documented for automated processing",
+        "SEO requirements vague — need clarity on redirect mapping from old URLs"
+      ],
+      "implicitRequirements": [
+        "Cart persistence across sessions and devices",
+        "Abandoned cart recovery emails",
+        "Product variant management (size, color, material)",
+        "Order status webhooks for third-party integrations",
+        "Admin audit log for inventory and price changes",
+        "GDPR compliance for EU customer data"
+      ],
+      "features": [
+        {
+          "id": "rf-013",
+          "name": "Product Catalog",
+          "description": "Browsable product catalog with category navigation, faceted search, and product detail pages with image galleries, variants, and pricing."
+        },
+        {
+          "id": "rf-014",
+          "name": "Shopping Cart & Checkout",
+          "description": "Persistent cart with quantity management, discount code application, multi-step checkout with address, shipping method, and payment selection."
+        },
+        {
+          "id": "rf-015",
+          "name": "Order Management",
+          "description": "Admin interface for viewing, processing, and fulfilling orders. Status tracking, shipping label generation, and refund processing."
+        },
+        {
+          "id": "rf-016",
+          "name": "Customer Accounts",
+          "description": "Registration, login, profile management, order history, saved addresses, and wishlist. Password reset and email verification flows."
+        },
+        {
+          "id": "rf-017",
+          "name": "Search & Discovery",
+          "description": "Full-text product search with typo tolerance, filters (price, category, brand, rating), and merchandising rules for featured results."
+        },
+        {
+          "id": "rf-018",
+          "name": "Data Migration",
+          "description": "ETL pipeline to migrate 50K products and 200K customers from legacy MySQL. Includes data validation, transformation rules, and rollback capability."
+        }
+      ],
+      "createdAt": "2026-04-09T16:20:00Z",
+      "updatedAt": "2026-04-10T11:30:00Z"
+    },
+    {
+      "id": "er-004",
+      "title": "Internal CRM Tool",
+      "rawContent": "We need a lightweight CRM for our sales team to track leads and deals...",
+      "sourceFormat": "text",
+      "status": "confirmed",
+      "projectOverview": "A lightweight internal CRM for the sales team to track leads, manage deal pipelines, and log client communications. Replaces a fragmented spreadsheet-based workflow with a structured tool integrated with email and calendar.",
+      "technicalConstraints": [
+        "Web application — no mobile app required",
+        "Google Workspace integration (Gmail, Calendar)",
+        "Must import existing data from Google Sheets (~2K contacts)"
+      ],
+      "ambiguities": [
+        "Reporting depth unclear — basic pipeline metrics or full sales analytics?",
+        "No mention of team territories or lead assignment rules"
+      ],
+      "implicitRequirements": [
+        "Activity logging for calls, emails, and meetings",
+        "Deal stage automation (move to next stage on trigger)",
+        "Contact deduplication on import"
+      ],
+      "features": [
+        {
+          "id": "rf-019",
+          "name": "Contact Management",
+          "description": "Create, view, and edit contacts with company association. Import from CSV/Google Sheets. Search and filter by company, status, or tag."
+        },
+        {
+          "id": "rf-020",
+          "name": "Deal Pipeline",
+          "description": "Kanban-style pipeline view with configurable stages. Drag-and-drop deal progression, deal value tracking, and expected close dates."
+        },
+        {
+          "id": "rf-021",
+          "name": "Activity Timeline",
+          "description": "Chronological log of all interactions with a contact or deal — emails, calls, meetings, notes. Auto-populated from Gmail and Calendar integration."
+        },
+        {
+          "id": "rf-022",
+          "name": "Google Workspace Integration",
+          "description": "Two-way sync with Gmail for email logging and Google Calendar for meeting tracking. OAuth-based connection with per-user configuration."
+        }
+      ],
+      "createdAt": "2026-04-08T10:00:00Z",
+      "updatedAt": "2026-04-09T14:15:00Z"
+    },
+    {
+      "id": "er-005",
+      "title": "API Gateway Service",
+      "rawContent": "Build an API gateway...",
+      "sourceFormat": "form",
+      "status": "draft",
+      "projectOverview": "A centralized API gateway to route, authenticate, and rate-limit requests across internal microservices. Consolidates authentication, logging, and traffic management into a single entry point.",
+      "technicalConstraints": [
+        "Must handle 10K requests/second at p99 < 50ms",
+        "JWT-based authentication with JWKS rotation",
+        "Kubernetes deployment with horizontal pod autoscaling"
+      ],
+      "ambiguities": [
+        "WebSocket passthrough requirements not specified",
+        "No mention of request/response transformation rules"
+      ],
+      "implicitRequirements": [
+        "Health check endpoints for upstream services",
+        "Circuit breaker pattern for failing backends"
+      ],
+      "features": [
+        {
+          "id": "rf-023",
+          "name": "Request Routing",
+          "description": "Path-based routing to downstream services with configurable route tables, header forwarding rules, and timeout settings."
+        },
+        {
+          "id": "rf-024",
+          "name": "Rate Limiting",
+          "description": "Per-client and per-endpoint rate limiting with configurable windows, burst allowances, and 429 response handling."
+        },
+        {
+          "id": "rf-025",
+          "name": "Authentication Gateway",
+          "description": "JWT validation, token introspection, and JWKS key rotation. Passes verified claims to downstream services via headers."
+        }
+      ],
+      "createdAt": "2026-04-12T08:45:00Z",
+      "updatedAt": "2026-04-12T08:45:00Z"
     },
     {
       "id": "er-006",

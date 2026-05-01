@@ -15,6 +15,9 @@ Estimates vs. actuals data is scattered across spreadsheets, Jira, and individua
 A proper estimate for a medium project takes 4-8 hours of senior engineer time — for an opportunity that might not close. Estimator generates a structured first-pass in under 60 seconds, letting the senior engineer focus on judgment, context, and risk rather than mechanical breakdown.
 
 ## Key Features
+- Projects dashboard with status tracking across the estimation pipeline
+- Draft auto-save and resume at the exact pipeline phase
+- Active/Archived project management with search, filtering, and sorting
 - PRD ingestion via file upload (PDF, DOCX, Markdown), text paste, or structured form
 - AI extraction of project overview, features, constraints, ambiguities, and implicit requirements
 - AI-driven first-pass estimation with per-feature complexity, hour ranges, and confidence levels

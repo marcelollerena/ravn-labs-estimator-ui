@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { RotateCcw, CheckCircle2, Sparkles, AlertTriangle, Lightbulb, Wrench, Check } from 'lucide-react'
-import { PageHeader } from '../../shell/components/PageHeader'
+import { PageHeader } from '../../../shell/components/PageHeader'
+import { Badge } from '@/components/ui/badge'
 import { FeatureList } from './FeatureList'
 import { EditableStringList } from './EditableStringList'
 import type {
@@ -8,10 +9,6 @@ import type {
   RequestFeature,
   SourceFormat,
 } from '../types'
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
 
 interface ExtractionReviewProps {
   request: EstimationRequest

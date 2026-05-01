@@ -40,6 +40,10 @@ You interact with Design OS through slash commands. Each command walks you throu
 
 See [Usage](usage.md) for the full workflow.
 
+## Project-Specific Manual
+
+If you are working inside this Estimator repository and need the exact operational workflow for turning a PRD into Design OS section designs, read [Design OS User Manual for Estimator](design-os-user-manual.md).
+
 ## Who It's For
 
 - **Technical builders** — Full control over architecture and design decisions without doing all the legwork yourself.

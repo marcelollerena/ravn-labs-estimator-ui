@@ -1,7 +1,7 @@
 # Milestone 3: AI-Driven First-Pass Estimation
 
 > **Provide alongside:** `product-overview.md`
-> **Prerequisites:** Milestone 1 (Shell) and Milestone 2 (PRD Ingestion) complete
+> **Prerequisites:** Milestone 2 (PRD Ingestion) complete
 
 ---
 
@@ -26,122 +26,95 @@ The components are props-based — they accept data and fire callbacks. How you 
 
 ## Goal
 
-Implement the AI-Driven First-Pass Estimation feature — generate a complete estimate from a confirmed PRD extraction in under 60 seconds, then display a dense estimation workbench for review.
+Implement the AI-Driven First-Pass Estimation feature — generate a complete estimate from a confirmed PRD extraction with per-feature breakdown, project summary, team recommendation, risks, comparable projects, and clarification questions.
 
 ## Overview
 
-This section generates a complete AI-driven first-pass estimate from a confirmed EstimationRequest. The user watches step-by-step progress during generation, then reviews a dense workbench layout with per-feature breakdowns, project summary, team recommendation, risks, comparable projects, and clarification questions before proceeding to Human Review & Adjustment.
+The system generates a full estimate in under 60 seconds. Users watch step-by-step progress, then review a dense estimation workbench. They can regenerate if unsatisfied or proceed to human review.
 
 **Key Functionality:**
-- Show step-by-step generation progress with elapsed time per step
-- Display summary metrics: total hours (low/likely/high), duration, complexity, confidence
-- Show sortable per-feature breakdown table with expandable detail rows
-- Display project summary with rationale and key assumptions
-- Show team recommendation with roles, headcount, seniority, and reasoning
-- Display color-coded risks with category, likelihood, impact, and mitigation
-- Show comparable historical projects with estimate vs. actual variance
-- List clarification questions with impact levels and resolution status
-- Allow regeneration or continuation to human review
+- Step-by-step generation progress with elapsed time per step
+- Summary header with total hours (low/likely/high), duration, complexity, confidence
+- Sortable per-feature breakdown with expandable detail rows
+- Project summary with AI rationale and key assumptions
+- Team recommendation with roles, headcount, seniority, reasoning
+- Risk assessment with category, likelihood, impact, mitigation
+- Comparable projects with estimated vs actual hours and variance
+- Clarification questions with impact level and resolution status
 
 ## Components Provided
 
-Copy the section components from `product-plan/sections/ai-driven-first-pass-estimation/components/`:
+Copy from `product-plan/sections/ai-driven-first-pass-estimation/components/`:
 
-- `GenerationProgress` — Step-by-step progress view during AI estimation
-- `EstimationWorkbenchView` — Main workbench layout composing all panels
-- `SummaryHeader` — Compact metric bar (hours, duration, complexity, confidence, gen time)
-- `FeatureBreakdown` — Sortable table with expandable feature rows
-- `ProjectSummary` — Rationale and key assumptions panel
-- `TeamRecommendation` — Role table with headcount, seniority, and reasoning
-- `RisksPanel` — Risk display with category, likelihood, impact, and mitigation
-- `ComparableProjects` — Historical project comparison cards
-- `ClarificationQuestions` — Checklist of unresolved questions with impact levels
+- `GenerationProgress` — Progress view during generation
+- `EstimationWorkbenchView` — Main layout orchestrating all panels
+- `SummaryHeader` — Key metrics bar
+- `FeatureBreakdown` — Sortable, expandable feature table
+- `ProjectSummary` — AI rationale and assumptions
+- `TeamRecommendation` — Roles table
+- `RisksPanel` — Risk cards
+- `ComparableProjects` — Historical project cards
+- `ClarificationQuestions` — Questions checklist
 
 ## Props Reference
 
-The components expect these data shapes (see `types.ts` for full definitions):
+See `types.ts` for full definitions. Key interfaces:
 
-**Data props:**
-
-- `Estimate` — Complete estimate with hours, complexity, confidence, features, risks, team, comparables, questions
-- `EstimateFeature` — Feature with complexity, hour range (low/likely/high), confidence, assumptions, dependencies
-- `EstimateRisk` — Risk with category, likelihood, impact, and mitigation
-- `TeamRecommendation` — Headcount, roles with seniority, and overall reasoning
-- `ComparableProject` — Historical project with estimated vs. actual hours and similarity rationale
-- `EstimateQuestion` — Question with affected scope, impact level, and resolution status
-- `GenerationStep` — Step with label, status, and duration
+- `Estimate` — The complete estimate with all nested data
+- `EstimateFeature` — Feature with complexity, hours (low/likely/high), confidence
+- `EstimateRisk` — Risk with category, likelihood, impact, mitigation
+- `TeamRecommendation` — Roles array with headcount and reasoning
+- `GenerationStep` — Step with label, status, duration
 
 **Callback props:**
 
 | Callback | Triggered When |
 |----------|---------------|
-| `onGenerate` | User starts the estimation process |
-| `onRegenerate` | User regenerates the estimate from scratch |
-| `onContinueToReview` | User proceeds to Human Review & Adjustment |
-| `onExpandFeature` | User expands a feature row to see details |
-| `onCollapseFeature` | User collapses an expanded feature row |
+| `onRegenerate` | User clicks "Regenerate" |
+| `onContinueToReview` | User clicks "Continue to Review" |
+| `onExpandFeature` | User expands a feature row |
+| `onCollapseFeature` | User collapses a feature row |
 
 ## Expected User Flows
 
-### Flow 1: Generate an Estimate
+### Flow 1: Generate Estimate
+1. User arrives from PRD Ingestion with confirmed extraction
+2. Generation starts automatically showing step progress
+3. Steps complete with checkmarks and duration
+4. **Outcome:** Estimation workbench renders with full data
 
-1. User arrives from PRD Ingestion with a confirmed extraction
-2. User triggers estimation — generation progress view appears
-3. Steps complete one by one with elapsed time displayed
-4. Progress bar fills, step counter updates
-5. **Outcome:** All steps complete, workbench view loads automatically
+### Flow 2: Review Estimate Details
+1. User scans summary header (hours, duration, complexity, confidence)
+2. User clicks a feature row to expand assumptions and dependencies
+3. User reviews risks, team recommendation, comparable projects
+4. **Outcome:** User has full understanding of the estimate
 
-### Flow 2: Review the Estimate Workbench
-
-1. User sees summary header with total hours, duration, complexity, confidence
-2. User expands feature rows to inspect assumptions and dependencies
-3. User sorts features by complexity or likely hours
-4. User reviews team recommendation and risks
-5. User checks comparable projects for validation
-6. User reviews clarification questions
-7. User clicks "Continue to Review"
-8. **Outcome:** Navigates to Human Review & Adjustment section
-
-### Flow 3: Regenerate Estimate
-
-1. User is unsatisfied with the estimate
-2. User clicks "Regenerate" in the page header
-3. **Outcome:** Returns to generation progress, new estimate is generated
-
-## Empty States
-
-- **No estimate yet:** Generation can be triggered via `onGenerate`
-- **No risks identified:** Risks panel shows "0" count, renders empty
-- **No comparable projects:** Comparables panel shows "0" count, renders empty
-- **All questions resolved:** Questions show "0 unresolved", all items have green checkmarks
+### Flow 3: Proceed to Review
+1. User clicks "Continue to Review"
+2. **Outcome:** Navigates to Human Review & Adjustment section
 
 ## Testing
 
-See `product-plan/sections/ai-driven-first-pass-estimation/tests.md` for UI behavior test specs covering:
-- Generation progress and failure states
-- Workbench review with all panels
-- Feature sorting and expansion
-- Color-coded severity indicators
-- Empty state rendering
+See `product-plan/sections/ai-driven-first-pass-estimation/tests.md` for UI behavior test specs.
 
 ## Files to Reference
 
-- `product-plan/sections/ai-driven-first-pass-estimation/README.md` — Feature overview and design intent
-- `product-plan/sections/ai-driven-first-pass-estimation/tests.md` — UI behavior test specs
-- `product-plan/sections/ai-driven-first-pass-estimation/components/` — React components
-- `product-plan/sections/ai-driven-first-pass-estimation/types.ts` — TypeScript interfaces
-- `product-plan/sections/ai-driven-first-pass-estimation/sample-data.json` — Test data
+- `product-plan/sections/ai-driven-first-pass-estimation/README.md`
+- `product-plan/sections/ai-driven-first-pass-estimation/tests.md`
+- `product-plan/sections/ai-driven-first-pass-estimation/components/`
+- `product-plan/sections/ai-driven-first-pass-estimation/types.ts`
+- `product-plan/sections/ai-driven-first-pass-estimation/sample-data.json`
 
 ## Done When
 
-- [ ] Generation progress view shows step-by-step progress with duration
-- [ ] Workbench displays all panels: summary, features, project summary, team, risks, comparables, questions
-- [ ] Feature table is sortable by name, complexity, likely hours, confidence
-- [ ] Feature rows expand to show description, assumptions, and dependencies
-- [ ] Risks are color-coded by severity (critical risks highlighted)
-- [ ] Comparable projects show estimate vs. actual variance
-- [ ] Questions show resolved/unresolved status with impact badges
-- [ ] "Regenerate" and "Continue to Review" actions work
-- [ ] Empty states render correctly
+- [ ] Generation progress shows steps with status indicators
+- [ ] Summary header displays hours, duration, complexity, confidence
+- [ ] Feature breakdown is sortable by all columns
+- [ ] Feature rows expand to show assumptions and dependencies
+- [ ] AI-generated content has visual distinction (blue tint/badge)
+- [ ] Risks show color-coded likelihood and impact
+- [ ] Comparable projects show variance metrics
+- [ ] Clarification questions show resolution status
+- [ ] "Regenerate" restarts the process
+- [ ] "Continue to Review" navigates to human review
 - [ ] Responsive on mobile
-- [ ] Dark mode works correctly

@@ -2,10 +2,7 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { MainNav, type NavGroup } from './MainNav'
 import { UserMenu } from './UserMenu'
-
-// NOTE: This component requires a Sheet/drawer component for mobile navigation.
-// Replace the Sheet imports below with your UI library's equivalent (e.g., shadcn/ui Sheet, Radix Dialog, or a custom drawer).
-// For initial setup, you can use a simple conditional render or install @radix-ui/react-dialog.
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 interface AppShellProps {
   children: React.ReactNode
@@ -91,22 +88,13 @@ export function AppShell({
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Mobile top bar */}
         <div className="flex h-12 shrink-0 items-center border-b border-zinc-200 px-4 dark:border-zinc-800 md:hidden">
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="text-zinc-600 dark:text-zinc-400"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-          <span className="ml-3 text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">
-            Estimator
-          </span>
-        </div>
-
-        {/* Mobile nav overlay */}
-        {mobileOpen && (
-          <div className="fixed inset-0 z-50 md:hidden">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
-            <div className="relative h-full w-[232px]">
+          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+            <SheetTrigger asChild>
+              <button className="text-zinc-600 dark:text-zinc-400">
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[232px] p-0">
               <SidebarContent
                 navigationGroups={navigationGroups}
                 user={user}
@@ -117,9 +105,12 @@ export function AppShell({
                 onLogout={onLogout}
                 onSettings={onSettings}
               />
-            </div>
-          </div>
-        )}
+            </SheetContent>
+          </Sheet>
+          <span className="ml-3 text-[13px] font-semibold text-zinc-900 dark:text-zinc-100">
+            Estimator
+          </span>
+        </div>
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto bg-white dark:bg-zinc-900">

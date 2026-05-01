@@ -1,11 +1,7 @@
-import React from 'react'
 import { FileText, Check, Loader2, Circle, XCircle, RotateCcw, ArrowLeft } from 'lucide-react'
-import { PageHeader } from '../../shell/components/PageHeader'
+import { PageHeader } from '../../../shell/components/PageHeader'
+import { Badge } from '@/components/ui/badge'
 import type { SourceFormat } from '../types'
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
 
 type StepStatus = 'pending' | 'active' | 'complete' | 'error'
 

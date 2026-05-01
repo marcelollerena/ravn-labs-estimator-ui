@@ -2,8 +2,8 @@
 
 ## Define Section Variables
 
-- **SECTION_NAME** = [Human-readable name, e.g., "PRD Ingestion" or "AI-Driven First-Pass Estimation"]
-- **SECTION_ID** = [Folder name in sections/, e.g., "prd-ingestion" or "ai-driven-first-pass-estimation"]
+- **SECTION_NAME** = [Human-readable name, e.g., "PRD Ingestion" or "Human Review & Adjustment"]
+- **SECTION_ID** = [Folder name in sections/, e.g., "prd-ingestion" or "human-review-and-adjustment"]
 - **NN** = [Milestone number, e.g., "02" or "03" — sections start at 02 since 01 is Shell]
 
 ---
