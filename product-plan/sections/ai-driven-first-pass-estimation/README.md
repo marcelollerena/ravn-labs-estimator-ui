@@ -2,57 +2,41 @@
 
 ## Overview
 
-This section generates a complete AI-driven first-pass estimate from a confirmed EstimationRequest in under 60 seconds. The user watches step-by-step progress during generation, then reviews a dense estimation workbench with per-feature breakdowns, project summary, team recommendation, risks, comparable projects, and clarification questions before proceeding to Human Review & Adjustment.
+Generates a complete AI-driven first-pass estimate from a confirmed PRD extraction in under 60 seconds. The user watches step-by-step progress during generation, then reviews a dense estimation workbench with per-feature breakdowns, project summary, team recommendation, risks, comparable projects, and clarification questions before proceeding to Human Review & Adjustment.
 
 ## User Flows
 
-- User lands here from PRD Ingestion with a confirmed EstimationRequest and starts (or resumes) first-pass estimation.
-- User watches a step-by-step progress view while the AI generates the estimate (feature analysis, complexity scoring, hour estimation, risk identification, comparable retrieval, team recommendation).
-- User reviews the finished estimate on a workbench layout: total hours (low/likely/high), estimated duration, overall complexity, overall confidence, and estimate status displayed prominently.
-- User drills into the per-feature breakdown table showing feature name, description, complexity, hour range, confidence, assumptions, and dependencies for each EstimateFeature.
-- User inspects the project-level summary panel with overall rationale and key assumptions.
-- User reviews the team recommendation panel with suggested roles, headcount, seniority mix, and reasoning.
-- User reviews the risks panel showing each EstimateRisk with category, likelihood, impact, and mitigation.
-- User reviews the comparable projects panel showing 3-5 similar historical Projects with metadata and why they are comparable.
-- User reviews the clarification questions panel listing unresolved EstimateQuestions that materially affect the estimate.
-- User regenerates the estimate if unsatisfied, or continues to Human Review & Adjustment.
-
-## Design Decisions
-
-- Dense internal-tool layout optimized for scanning and comparison
-- Generation progress shows labeled steps with elapsed time per step
-- Summary header displays key metrics (hours, duration, complexity, confidence) in a compact bar
-- Feature breakdown is a sortable table with expandable rows for assumptions and dependencies
-- Risks use color-coded likelihood/impact indicators with critical risks highlighted
-- Comparable projects show key metrics with estimate vs. actual variance
-- Clarification questions use a checklist pattern with impact badges
-
-## Data Shapes
-
-**Entities:** Estimate, EstimateFeature, EstimateRisk, TeamRecommendation, ComparableProject, EstimateQuestion, GenerationStep
-
-## Visual Reference
-
-See `screenshot.png` for the target UI design (if available).
+- User arrives from PRD Ingestion with a confirmed EstimationRequest and starts first-pass estimation
+- User watches a step-by-step progress view (feature analysis, complexity scoring, hour estimation, risk identification, comparable retrieval, team recommendation)
+- User reviews the finished estimate on a workbench layout with summary metrics
+- User drills into per-feature breakdown with hours, complexity, confidence, assumptions, and dependencies
+- User inspects project summary, team recommendation, risks, comparable projects, and clarification questions
+- User regenerates the estimate if unsatisfied, or continues to Human Review
 
 ## Components Provided
 
-- `GenerationProgress` — Step-by-step progress view during AI estimation
-- `EstimationWorkbenchView` — Main workbench layout composing all panels
-- `SummaryHeader` — Compact metric bar showing hours, duration, complexity, confidence
-- `FeatureBreakdown` — Sortable table with expandable feature rows
-- `ProjectSummary` — Rationale and key assumptions panel
-- `TeamRecommendation` — Role table with headcount, seniority, and reasoning
-- `RisksPanel` — Risk cards with category, likelihood, impact, and mitigation
-- `ComparableProjects` — Historical project comparison cards
-- `ClarificationQuestions` — Checklist of unresolved questions with impact levels
+- `GenerationProgress` — Step-by-step progress view during AI generation
+- `EstimationWorkbenchView` — Main layout orchestrating all panels
+- `SummaryHeader` — Key metrics bar (hours, duration, complexity, confidence, gen time)
+- `FeatureBreakdown` — Sortable, expandable feature table
+- `ProjectSummary` — AI rationale and key assumptions
+- `TeamRecommendation` — Roles table with headcount, seniority, reasoning
+- `RisksPanel` — Risk cards with category, likelihood, impact, mitigation
+- `ComparableProjects` — Historical project cards with variance metrics
+- `ClarificationQuestions` — Unresolved questions checklist
 
 ## Callback Props
 
 | Callback | Triggered When |
 |----------|---------------|
 | `onGenerate` | Start AI estimation process |
-| `onRegenerate` | Regenerate the estimate from scratch |
-| `onContinueToReview` | Proceed to Human Review & Adjustment |
-| `onExpandFeature` | Expand a feature row for details |
-| `onCollapseFeature` | Collapse an expanded feature row |
+| `onRegenerate` | Regenerate estimate from scratch |
+| `onContinueToReview` | Proceed to Human Review section |
+| `onExpandFeature` | Expand a feature row |
+| `onCollapseFeature` | Collapse a feature row |
+
+## Data Shapes
+
+**Entities:** Estimate, EstimateFeature, EstimateRisk, TeamRecommendation, ComparableProject, EstimateQuestion, GenerationStep
+
+See `types.ts` for full interface definitions.

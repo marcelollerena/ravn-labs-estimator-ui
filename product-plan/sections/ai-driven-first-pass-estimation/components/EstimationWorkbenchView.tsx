@@ -1,5 +1,6 @@
 import { RotateCcw, ArrowRight, CheckCircle2 } from 'lucide-react'
-import { PageHeader } from '../../shell/components/PageHeader'
+import { PageHeader } from '../../../shell/components/PageHeader'
+import { Badge } from '@/components/ui/badge'
 import { SummaryHeader } from './SummaryHeader'
 import { FeatureBreakdown } from './FeatureBreakdown'
 import { ProjectSummary } from './ProjectSummary'
@@ -8,10 +9,6 @@ import { RisksPanel } from './RisksPanel'
 import { ComparableProjects } from './ComparableProjects'
 import { ClarificationQuestions } from './ClarificationQuestions'
 import type { Estimate } from '../types'
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
 
 interface EstimationWorkbenchViewProps {
   estimate: Estimate

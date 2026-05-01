@@ -1,9 +1,6 @@
 import { Sparkles } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 import type { EstimateSummary } from '../types'
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
 
 interface ProjectSummaryProps {
   summary: EstimateSummary

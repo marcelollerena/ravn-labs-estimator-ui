@@ -38,53 +38,36 @@ Configure your styling system with these tokens:
 - See `product-plan/design-system/tailwind-colors.md` for Tailwind configuration
 - See `product-plan/design-system/fonts.md` for Google Fonts setup
 
-**Colors:**
-- Primary: `blue` — buttons, links, active nav items, key accents
-- Secondary: `slate` — tags, badges, secondary elements
-- Neutral: `zinc` — backgrounds, text, borders, sidebar
-
-**Typography:**
-- Heading & Body: Inter (400-700 weight)
-- Code/Mono: JetBrains Mono (400-500 weight)
+**Colors:** blue (primary), slate (secondary), zinc (neutral)
+**Fonts:** Inter (headings + body), JetBrains Mono (code/numbers)
 
 ### 2. Application Shell
 
 Copy the shell components from `product-plan/shell/components/` to your project:
 
-- `AppShell.tsx` — Main layout wrapper with sidebar and content area
-- `MainNav.tsx` — Navigation component with grouped items and active state
-- `PageHeader.tsx` — Page header with title, description, status badge, and actions
-- `UserMenu.tsx` — User menu with avatar initials and dropdown
+- `AppShell.tsx` — Main layout wrapper with sidebar + content
+- `MainNav.tsx` — Navigation with grouped items and icons
+- `UserMenu.tsx` — User menu with avatar, settings, sign out
+- `PageHeader.tsx` — Page header with title, description, status, actions
 
 **Wire Up Navigation:**
 
-Connect navigation to your routing:
-
-| Label | Route | Icon | Group |
-|-------|-------|------|-------|
-| Dashboard | `/` | LayoutDashboard | Main |
-| PRD Ingestion | `/ingestion` | FileUp | Main |
-| Estimates | `/estimates` | FileText | Estimation |
-| Reviews | `/reviews` | ClipboardCheck | Estimation |
-| Projects | `/projects` | FolderOpen | Data |
-| Calibration | `/calibration` | BarChart3 | Data |
+- Dashboard → `/` — Overview metrics and recent activity
+- PRD Ingestion → `/ingestion` — Upload, parse, and review PRDs
+- Estimates → `/estimates` — AI-generated estimate list and detail
+- Reviews → `/reviews` — Human review queue
+- Projects → `/projects` — Historical project database
+- Calibration → `/calibration` — Accuracy dashboard
 
 **User Menu:**
 
 The user menu expects:
-- User name (displayed as initials in avatar)
-- Avatar URL (optional — falls back to initials)
+- User name (string)
+- Avatar URL (optional)
 - Logout callback
 - Settings callback
 
-All users are Ravn employees (WorkOS AuthKit).
-
-## Layout Details
-
-- Fixed sidebar (232px) on the left, scrollable content on the right
-- Sidebar always dark (zinc-950), content area respects light/dark theme
-- Tablet (768-1023px): Sidebar collapses to icon-only (56px)
-- Mobile (<768px): Sidebar hidden, top bar with hamburger, overlay nav
+**Dependencies:** The shell uses `@/components/ui/sheet` and `@/components/ui/dropdown-menu` — install these from shadcn/ui or provide equivalent components.
 
 ## Files to Reference
 
@@ -94,10 +77,9 @@ All users are Ravn employees (WorkOS AuthKit).
 
 ## Done When
 
-- [ ] Design tokens are configured (Inter + JetBrains Mono fonts, blue/slate/zinc colors)
+- [ ] Design tokens are configured (colors, fonts)
 - [ ] Shell renders with sidebar navigation
 - [ ] Navigation links to correct routes
-- [ ] Active nav item is highlighted
-- [ ] User menu shows user info with dropdown
-- [ ] Responsive: tablet shows collapsed sidebar, mobile shows hamburger menu
+- [ ] User menu shows user info and dropdown
+- [ ] Responsive: full sidebar on desktop, icon-only on tablet, hamburger on mobile
 - [ ] Dark mode works correctly

@@ -1,13 +1,13 @@
 /* Design Tokens for Estimator */
 
 :root {
-  /* Colors */
-  --color-primary: theme('colors.blue');
-  --color-secondary: theme('colors.slate');
-  --color-neutral: theme('colors.zinc');
+  /* Colors — Using Tailwind built-in palettes */
+  --color-primary: blue;      /* blue-500 for buttons, links, key accents */
+  --color-secondary: slate;   /* slate for tags, highlights, secondary elements */
+  --color-neutral: zinc;      /* zinc for backgrounds, text, borders */
 
   /* Typography */
-  --font-heading: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }

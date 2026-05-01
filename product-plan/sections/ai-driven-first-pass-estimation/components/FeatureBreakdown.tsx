@@ -1,75 +1,53 @@
-import React, { useState, createContext, useContext } from 'react'
-import { ChevronRight, ChevronDown, ArrowUpDown, Sparkles } from 'lucide-react'
+import { useState } from "react";
+import { ChevronRight, ChevronDown, ArrowUpDown, Sparkles } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+} from "@/components/ui/collapsible";
+import { Badge } from "@/components/ui/badge";
 import type {
   EstimateFeature,
   Complexity,
-} from '../types'
-
-const CollapsibleContext = createContext<{ open: boolean; toggle: () => void }>({ open: false, toggle: () => {} })
-
-function Collapsible({ open, onOpenChange, children }: { open: boolean; onOpenChange: (open: boolean) => void; children: React.ReactNode }) {
-  return (
-    <CollapsibleContext.Provider value={{ open, toggle: () => onOpenChange(!open) }}>
-      {children}
-    </CollapsibleContext.Provider>
-  )
-}
-
-function CollapsibleTrigger({ asChild, children }: { asChild?: boolean; children: React.ReactNode }) {
-  const { toggle } = useContext(CollapsibleContext)
-  if (asChild && typeof children === 'object' && children !== null && 'props' in children) {
-    return <>{React.cloneElement(children as React.ReactElement, { onClick: toggle })}</>
-  }
-  return <button onClick={toggle}>{children}</button>
-}
-
-function CollapsibleContent({ children }: { children: React.ReactNode }) {
-  const { open } = useContext(CollapsibleContext)
-  if (!open) return null
-  return <>{children}</>
-}
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
+} from "../types";
 
 interface FeatureBreakdownProps {
-  features: EstimateFeature[]
-  expandedFeatureIds: Set<string>
-  onExpandFeature?: (featureId: string) => void
-  onCollapseFeature?: (featureId: string) => void
+  features: EstimateFeature[];
+  expandedFeatureIds: Set<string>;
+  onExpandFeature?: (featureId: string) => void;
+  onCollapseFeature?: (featureId: string) => void;
 }
 
-type SortKey = 'name' | 'complexity' | 'likely' | 'confidence'
-type SortDirection = 'asc' | 'desc'
+type SortKey = "name" | "complexity" | "likely" | "confidence";
+type SortDirection = "asc" | "desc";
 
 const COMPLEXITY_ORDER: Record<Complexity, number> = {
   low: 0,
   medium: 1,
   high: 2,
   very_high: 3,
-}
+};
 
 const COMPLEXITY_STYLES: Record<Complexity, string> = {
-  low: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400',
+  low: "border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-800 dark:bg-emerald-950 dark:text-emerald-400",
   medium:
-    'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400',
-  high: 'border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-400',
+    "border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-400",
+  high: "border-orange-200 bg-orange-50 text-orange-700 dark:border-orange-800 dark:bg-orange-950 dark:text-orange-400",
   very_high:
-    'border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400',
-}
+    "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400",
+};
 
 const COMPLEXITY_LABELS: Record<Complexity, string> = {
-  low: 'Low',
-  medium: 'Med',
-  high: 'High',
-  very_high: 'V.High',
-}
+  low: "Low",
+  medium: "Med",
+  high: "High",
+  very_high: "V.High",
+};
 
 function confidenceColor(c: number): string {
-  if (c >= 0.8) return 'text-emerald-600 dark:text-emerald-400'
-  if (c >= 0.6) return 'text-amber-600 dark:text-amber-400'
-  return 'text-red-600 dark:text-red-400'
+  if (c >= 0.8) return "text-emerald-600 dark:text-emerald-400";
+  if (c >= 0.6) return "text-amber-600 dark:text-amber-400";
+  return "text-red-600 dark:text-red-400";
 }
 
 function sortFeatures(
@@ -78,24 +56,24 @@ function sortFeatures(
   dir: SortDirection,
 ): EstimateFeature[] {
   const sorted = [...features].sort((a, b) => {
-    let cmp = 0
+    let cmp = 0;
     switch (key) {
-      case 'name':
-        cmp = a.name.localeCompare(b.name)
-        break
-      case 'complexity':
-        cmp = COMPLEXITY_ORDER[a.complexity] - COMPLEXITY_ORDER[b.complexity]
-        break
-      case 'likely':
-        cmp = a.hours.likely - b.hours.likely
-        break
-      case 'confidence':
-        cmp = a.confidence - b.confidence
-        break
+      case "name":
+        cmp = a.name.localeCompare(b.name);
+        break;
+      case "complexity":
+        cmp = COMPLEXITY_ORDER[a.complexity] - COMPLEXITY_ORDER[b.complexity];
+        break;
+      case "likely":
+        cmp = a.hours.likely - b.hours.likely;
+        break;
+      case "confidence":
+        cmp = a.confidence - b.confidence;
+        break;
     }
-    return dir === 'asc' ? cmp : -cmp
-  })
-  return sorted
+    return dir === "asc" ? cmp : -cmp;
+  });
+  return sorted;
 }
 
 export function FeatureBreakdown({
@@ -104,20 +82,20 @@ export function FeatureBreakdown({
   onExpandFeature,
   onCollapseFeature,
 }: FeatureBreakdownProps) {
-  const [sortKey, setSortKey] = useState<SortKey>('likely')
-  const [sortDir, setSortDir] = useState<SortDirection>('desc')
+  const [sortKey, setSortKey] = useState<SortKey>("likely");
+  const [sortDir, setSortDir] = useState<SortDirection>("desc");
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
-      setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'))
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     } else {
-      setSortKey(key)
-      setSortDir('desc')
+      setSortKey(key);
+      setSortDir("desc");
     }
-  }
+  };
 
-  const sorted = sortFeatures(features, sortKey, sortDir)
-  const totalLikely = features.reduce((sum, f) => sum + f.hours.likely, 0)
+  const sorted = sortFeatures(features, sortKey, sortDir);
+  const totalLikely = features.reduce((sum, f) => sum + f.hours.likely, 0);
 
   return (
     <section className="rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
@@ -142,16 +120,16 @@ export function FeatureBreakdown({
         <ColumnHeader
           label="Feature"
           sortKey="name"
-          active={sortKey === 'name'}
-          direction={sortKey === 'name' ? sortDir : undefined}
+          active={sortKey === "name"}
+          direction={sortKey === "name" ? sortDir : undefined}
           onSort={handleSort}
           className="flex-1"
         />
         <ColumnHeader
           label="Complexity"
           sortKey="complexity"
-          active={sortKey === 'complexity'}
-          direction={sortKey === 'complexity' ? sortDir : undefined}
+          active={sortKey === "complexity"}
+          direction={sortKey === "complexity" ? sortDir : undefined}
           onSort={handleSort}
           className="w-20 text-center"
         />
@@ -159,15 +137,15 @@ export function FeatureBreakdown({
           label="Low"
           sortKey="likely"
           active={false}
-          onSort={() => handleSort('likely')}
+          onSort={() => handleSort("likely")}
           className="hidden w-14 text-right sm:block"
           noIcon
         />
         <ColumnHeader
           label="Likely"
           sortKey="likely"
-          active={sortKey === 'likely'}
-          direction={sortKey === 'likely' ? sortDir : undefined}
+          active={sortKey === "likely"}
+          direction={sortKey === "likely" ? sortDir : undefined}
           onSort={handleSort}
           className="w-14 text-right"
         />
@@ -175,15 +153,15 @@ export function FeatureBreakdown({
           label="High"
           sortKey="likely"
           active={false}
-          onSort={() => handleSort('likely')}
+          onSort={() => handleSort("likely")}
           className="hidden w-14 text-right sm:block"
           noIcon
         />
         <ColumnHeader
           label="Conf"
           sortKey="confidence"
-          active={sortKey === 'confidence'}
-          direction={sortKey === 'confidence' ? sortDir : undefined}
+          active={sortKey === "confidence"}
+          direction={sortKey === "confidence" ? sortDir : undefined}
           onSort={handleSort}
           className="w-14 text-right"
         />
@@ -192,14 +170,14 @@ export function FeatureBreakdown({
       {/* Rows */}
       <div>
         {sorted.map((feature) => {
-          const isExpanded = expandedFeatureIds.has(feature.id)
+          const isExpanded = expandedFeatureIds.has(feature.id);
           return (
             <Collapsible
               key={feature.id}
               open={isExpanded}
               onOpenChange={(open) => {
-                if (open) onExpandFeature?.(feature.id)
-                else onCollapseFeature?.(feature.id)
+                if (open) onExpandFeature?.(feature.id);
+                else onCollapseFeature?.(feature.id);
               }}
             >
               <CollapsibleTrigger asChild>
@@ -299,11 +277,11 @@ export function FeatureBreakdown({
                 </div>
               </CollapsibleContent>
             </Collapsible>
-          )
+          );
         })}
       </div>
     </section>
-  )
+  );
 }
 
 function ColumnHeader({
@@ -314,32 +292,32 @@ function ColumnHeader({
   className,
   noIcon,
 }: {
-  label: string
-  sortKey: SortKey
-  active: boolean
-  direction?: SortDirection
-  onSort: (key: SortKey) => void
-  className?: string
-  noIcon?: boolean
+  label: string;
+  sortKey: SortKey;
+  active: boolean;
+  direction?: SortDirection;
+  onSort: (key: SortKey) => void;
+  className?: string;
+  noIcon?: boolean;
 }) {
   return (
     <button
       onClick={() => onSort(sortKey)}
       className={`flex items-center gap-0.5 text-[11px] font-medium uppercase tracking-wider transition-colors ${
         active
-          ? 'text-zinc-600 dark:text-zinc-300'
-          : 'text-zinc-400 hover:text-zinc-500 dark:text-zinc-500 dark:hover:text-zinc-400'
-      } ${className || ''}`}
+          ? "text-zinc-600 dark:text-zinc-300"
+          : "text-zinc-400 hover:text-zinc-500 dark:text-zinc-500 dark:hover:text-zinc-400"
+      } ${className || ""}`}
     >
       {label}
       {!noIcon && (
         <ArrowUpDown
           size={10}
           className={
-            active ? 'text-blue-500' : 'text-zinc-300 dark:text-zinc-600'
+            active ? "text-blue-500" : "text-zinc-300 dark:text-zinc-600"
           }
         />
       )}
     </button>
-  )
+  );
 }

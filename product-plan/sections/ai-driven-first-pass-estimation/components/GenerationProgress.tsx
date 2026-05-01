@@ -1,10 +1,7 @@
 import { Check, Loader2, Circle, Zap, ArrowLeft } from 'lucide-react'
-import { PageHeader } from '../../shell/components/PageHeader'
+import { PageHeader } from '../../../shell/components/PageHeader'
+import { Badge } from '@/components/ui/badge'
 import type { GenerationStep, GenerationStepStatus } from '../types'
-
-function Badge({ children, variant, className }: { children: React.ReactNode; variant?: string; className?: string }) {
-  return <span className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold ${className || ''}`}>{children}</span>
-}
 
 interface GenerationProgressProps {
   steps: GenerationStep[]

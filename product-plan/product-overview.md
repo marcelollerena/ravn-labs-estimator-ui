@@ -14,15 +14,15 @@ An internal Ravn tool that accelerates project estimation by combining AI-genera
 
 ## Product Entities
 
-- **EstimationRequest** — A parsed PRD that serves as the input to the estimation pipeline.
-- **RequestFeature** — A discrete feature extracted from a PRD during ingestion.
-- **Estimate** — The AI-generated (and later human-reviewed) estimate for a project.
-- **EstimateFeature** — A single feature within an estimate, with complexity, hour range, confidence, assumptions, and dependencies.
-- **EstimateRisk** — A risk identified for an estimate with likelihood, impact, and mitigation.
-- **EstimateQuestion** — An ambiguity or clarification question surfaced during estimation.
-- **Adjustment** — A human modification to an AI estimate, recording the action and mandatory reasoning.
-- **Project** — A historical Ravn project used for comparable retrieval.
-- **CalibrationEntry** — A post-project accuracy record comparing estimated vs. actual hours.
+- **EstimationRequest** — A parsed PRD serving as input to the estimation pipeline
+- **RequestFeature** — A discrete feature extracted from a PRD during ingestion
+- **Estimate** — The AI-generated (and later human-reviewed) estimate for a project
+- **EstimateFeature** — A single feature within an estimate with complexity, hours, and confidence
+- **EstimateRisk** — A risk identified for an estimate with likelihood, impact, and mitigation
+- **EstimateQuestion** — An ambiguity or clarification question affecting the estimate
+- **Adjustment** — A human modification to an AI estimate with mandatory reasoning
+- **Project** — A historical Ravn project used for comparable retrieval
+- **CalibrationEntry** — A post-project accuracy record comparing estimated vs. actual hours
 
 ## Design System
 
@@ -40,8 +40,10 @@ An internal Ravn tool that accelerates project estimation by combining AI-genera
 
 Build this product in milestones:
 
-1. **Shell** — Set up design tokens and application shell
-2. **PRD Ingestion** — Upload, parse, and review PRDs
-3. **AI-Driven First-Pass Estimation** — Generate AI estimates with feature breakdown, risks, and team recommendation
+1. **Shell** — Set up design tokens and application shell (sidebar navigation, page header, user menu)
+2. **PRD Ingestion** — File upload, text paste, structured form, AI extraction review
+3. **AI-Driven First-Pass Estimation** — Generation progress, estimation workbench with feature breakdown
+4. **Human Review & Adjustment** — Review console with accept/adjust workflow, impact tracking
+5. **Estimate Output & Export** — Export dashboard with internal/client profiles, document preview
 
 Each milestone has a dedicated instruction document in `product-plan/instructions/`.

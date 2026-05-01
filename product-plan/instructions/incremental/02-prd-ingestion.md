@@ -26,114 +26,94 @@ The components are props-based — they accept data and fire callbacks. How you 
 
 ## Goal
 
-Implement the PRD Ingestion feature — the entry point into the estimation workflow where users upload, parse, and review PRD documents.
+Implement the PRD Ingestion feature — accept raw PRD documents via upload, paste, or form, extract structured project data using AI, and let users review and confirm before estimation begins.
 
 ## Overview
 
-Users provide a PRD document via file upload (PDF, DOCX, Markdown), text paste, or a structured fallback form. The system parses the document using AI to extract a structured representation — title, project overview, feature list, technical constraints, ambiguities, and implicit requirements. The user reviews, edits, and confirms this extraction before it feeds into the estimation pipeline.
+Users provide a PRD document through one of three input methods. The system uses AI to extract structured data (title, overview, features, constraints, ambiguities, implicit requirements). Users review and edit the extraction, then confirm it as input for the estimation pipeline.
 
 **Key Functionality:**
-- Accept PRD input via three methods: file upload, text paste, or structured form
-- Show step-by-step parsing progress while AI processes the document
-- Display AI-extracted structure for review: title, overview, features, constraints, ambiguities, implicit requirements
-- Allow inline editing of all extracted fields
-- Add, remove, rename, and rewrite features
-- Confirm the extraction to transition to estimation
+- File upload with drag-and-drop (PDF, DOCX, Markdown)
+- Text paste with character count
+- Structured form fallback with feature and constraint repeaters
+- AI parsing progress with step-by-step visualization
+- Full review and inline editing of extracted data
+- Confirmation to proceed to estimation
 
 ## Components Provided
 
 Copy the section components from `product-plan/sections/prd-ingestion/components/`:
 
-- `IntakeView` — Three-tab input screen for upload, paste, and structured form
-- `ParsingView` — Step-by-step progress view during document parsing
-- `ExtractionReview` — Full review and edit screen for all extracted data
-- `FeatureList` — Table-style feature list with inline edit, add, and remove
-- `EditableStringList` — Reusable editable bullet list for constraints, ambiguities, requirements
+- `IntakeView` — Three-method input view with file upload, text paste, and form
+- `ParsingView` — Step-by-step progress view during AI parsing
+- `ExtractionReview` — Full review and edit interface for extracted data
+- `FeatureList` — Editable feature table with add/edit/remove
+- `EditableStringList` — Reusable inline-editable string list
 
 ## Props Reference
 
-The components expect these data shapes (see `types.ts` for full definitions):
+See `types.ts` for full definitions. Key interfaces:
 
-**Data props:**
-
-- `EstimationRequest` — The parsed PRD with title, overview, features, constraints, ambiguities, implicit requirements, status, and source format
-- `RequestFeature` — A feature with id, name, and description
-- `StructuredFormInput` — Form fallback: title, description, features array, constraints array
+- `EstimationRequest` — The parsed PRD with all extracted fields
+- `RequestFeature` — A discrete feature with name and description
+- `StructuredFormInput` — Form input with title, description, features, constraints
 
 **Callback props:**
 
 | Callback | Triggered When |
 |----------|---------------|
-| `onUploadFile` | User uploads a file for parsing |
-| `onPasteText` | User submits pasted text for parsing |
-| `onSubmitForm` | User submits the structured form |
-| `onRetryParse` | User retries parsing after an error |
-| `onUpdateTitle` | User edits the project title |
-| `onUpdateOverview` | User edits the project overview |
-| `onAddFeature` | User adds a new feature |
-| `onUpdateFeature` | User updates a feature's name or description |
-| `onRemoveFeature` | User removes a feature |
-| `onUpdateConstraints` | User modifies the constraints list |
-| `onUpdateAmbiguities` | User modifies the ambiguities list |
-| `onUpdateImplicitRequirements` | User modifies the implicit requirements list |
+| `onUploadFile` | User submits a file for parsing |
+| `onPasteText` | User submits pasted text |
+| `onSubmitForm` | User submits structured form |
 | `onConfirm` | User confirms the extraction |
+| `onRetryParse` | User retries parsing |
+| `onUpdateTitle` | User edits the title |
+| `onAddFeature` | User adds a feature |
+| `onUpdateFeature` | User edits a feature |
+| `onRemoveFeature` | User removes a feature |
 
 ## Expected User Flows
 
 ### Flow 1: Upload and Parse a PRD
-
-1. User lands on the ingestion page and sees three input methods as cards
-2. User drags a PDF onto the upload zone (or clicks "browse")
-3. User clicks "Parse PRD" to submit
-4. **Outcome:** Parsing begins, transition to progress view
+1. User navigates to PRD Ingestion
+2. User drags a PDF onto the upload zone (or clicks browse)
+3. User clicks "Parse PRD"
+4. System shows parsing progress with steps
+5. **Outcome:** Extraction review screen appears with populated data
 
 ### Flow 2: Review and Edit Extraction
-
-1. User sees the extraction review screen with all AI-extracted data
+1. User sees extracted title, overview, features, constraints
 2. User clicks on the title to edit it inline
-3. User edits features — adds one, removes one, renames another
-4. User reviews ambiguities (amber) and implicit requirements (violet)
-5. User clicks "Confirm Extraction"
-6. **Outcome:** Status changes to "confirmed", ready for estimation
+3. User adds a missing feature via "Add feature"
+4. User removes an ambiguity that's not relevant
+5. **Outcome:** Extraction reflects the user's corrections
 
-### Flow 3: Handle Parsing Error
-
-1. Parsing fails at a step
-2. User sees error message with "Back" and "Retry" buttons
-3. User clicks "Retry" to re-parse, or "Back" to return to input
-4. **Outcome:** Parsing restarts or user returns to input selection
-
-## Empty States
-
-- **No estimation request:** Show IntakeView with three input method cards and upload zone
-- **Empty extraction:** Extraction review with placeholder text ("Untitled", "No overview extracted") and "Add feature" button
+### Flow 3: Confirm and Proceed
+1. User reviews all extracted data
+2. User clicks "Confirm Extraction"
+3. **Outcome:** Status changes to "confirmed", user proceeds to estimation
 
 ## Testing
 
-See `product-plan/sections/prd-ingestion/tests.md` for UI behavior test specs covering:
-- Upload, paste, and form submission flows
-- Parsing progress and error states
-- Extraction review editing flows
-- Empty state rendering
-- Component interaction edge cases
+See `product-plan/sections/prd-ingestion/tests.md` for UI behavior test specs.
 
 ## Files to Reference
 
-- `product-plan/sections/prd-ingestion/README.md` — Feature overview and design intent
-- `product-plan/sections/prd-ingestion/tests.md` — UI behavior test specs
+- `product-plan/sections/prd-ingestion/README.md` — Feature overview
+- `product-plan/sections/prd-ingestion/tests.md` — UI behavior tests
 - `product-plan/sections/prd-ingestion/components/` — React components
 - `product-plan/sections/prd-ingestion/types.ts` — TypeScript interfaces
 - `product-plan/sections/prd-ingestion/sample-data.json` — Test data
 
 ## Done When
 
-- [ ] Components render with real data
-- [ ] Three input methods work: file upload, text paste, structured form
-- [ ] Parsing progress view shows step-by-step progress
-- [ ] Error state displays with retry and back actions
-- [ ] Extraction review allows inline editing of all fields
-- [ ] Features can be added, edited, and removed
-- [ ] Confirm button transitions status to "confirmed"
-- [ ] Empty state displays properly when no request exists
+- [ ] Three input methods work (upload, paste, form)
+- [ ] File upload accepts PDF, DOCX, MD with drag-and-drop
+- [ ] Parsing progress shows step-by-step
+- [ ] Extraction review displays all fields
+- [ ] All fields are editable inline
+- [ ] Features can be added, edited, removed
+- [ ] Ambiguities and implicit requirements show AI-inferred badge
+- [ ] Confirm button disabled without title and at least one feature
+- [ ] Confirmed extraction feeds into estimation step
 - [ ] Responsive on mobile
-- [ ] Dark mode works correctly

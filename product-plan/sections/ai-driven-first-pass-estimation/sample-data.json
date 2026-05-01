@@ -1,4 +1,23 @@
 {
+  "_meta": {
+    "models": {
+      "Estimate": "The AI-generated first-pass estimate for a project. Contains total hour ranges, complexity, confidence, duration, status, and nested panels for features, risks, team, comparables, and questions.",
+      "EstimateFeature": "A single feature within the estimate with complexity, hour range (low/likely/high), confidence, assumptions, and dependencies.",
+      "EstimateRisk": "A risk identified during estimation, categorized by type with likelihood, impact, and mitigation strategy.",
+      "TeamRecommendation": "Suggested team composition including roles, headcount, seniority, and reasoning.",
+      "ComparableProject": "A historical Ravn project surfaced as comparable, with key metrics and a similarity rationale.",
+      "EstimateQuestion": "An unresolved clarification question that materially affects the estimate.",
+      "GenerationStep": "A labeled step in the AI generation pipeline used to show progress."
+    },
+    "relationships": [
+      "Estimate has many EstimateFeature",
+      "Estimate has many EstimateRisk",
+      "Estimate has one TeamRecommendation",
+      "Estimate has many ComparableProject",
+      "Estimate has many EstimateQuestion",
+      "Estimate references one EstimationRequest (via requestId)"
+    ]
+  },
   "generationSteps": [
     { "id": "step-1", "label": "Analyzing features", "status": "completed", "durationMs": 4200 },
     { "id": "step-2", "label": "Scoring complexity", "status": "completed", "durationMs": 3800 },

@@ -2,6 +2,9 @@
 
 ## Entities
 
+### EstimationProject
+A top-level entity that unifies all pipeline phases into a single project record. Contains denormalized summary metadata (name, status, hours, confidence, feature count, pipeline progress) for list-view rendering, plus foreign keys to the phase-specific entities (EstimationRequest, Estimate, ReviewEstimate, ExportDashboard). The primary entity for the Projects list and all cross-phase navigation. Tracks project status through the pipeline: draft, extracting, estimating, in_review, estimated, archived.
+
 ### EstimationRequest
 A parsed PRD that serves as the input to the estimation pipeline. Contains the raw document content, AI-extracted structure (overview, features, constraints, ambiguities, implicit requirements), and a status tracking its lifecycle from draft through confirmation to estimation.
 
@@ -31,6 +34,10 @@ A post-project accuracy record comparing estimated hours to actual hours, with v
 
 ## Relationships
 
+- EstimationProject has one EstimationRequest
+- EstimationProject has one Estimate (nullable)
+- EstimationProject has one ReviewEstimate (nullable)
+- EstimationProject has one ExportDashboard (nullable)
 - EstimationRequest has many RequestFeature
 - EstimationRequest has one Estimate
 - Estimate has many EstimateFeature

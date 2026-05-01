@@ -2,6 +2,9 @@
 
 ## Sections
 
+### 0. Projects
+View and manage all estimation projects across the pipeline. See drafts, in-progress estimates, and completed work. Resume any project at its current phase. Search, filter by status, and archive completed work.
+
 ### 1. PRD Ingestion
 Accept raw PRD documents via upload, paste, or form — extract structured project data using AI and let users review and confirm before estimation begins.
 

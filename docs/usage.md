@@ -57,3 +57,5 @@ See [Export](export.md) for details on what's included and how to use it.
 - **Be specific** — The more detail you provide, the better the output.
 - **Iterate** — Each command is a conversation. Refine until you're happy.
 - **Restart the dev server** — After creating new components, restart to see changes.
+
+For the repo-specific workflow used in this Estimator project, see [Design OS User Manual for Estimator](design-os-user-manual.md).

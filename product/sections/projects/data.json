@@ -1,0 +1,150 @@
+{
+  "_meta": {
+    "models": {
+      "EstimationProject": "A top-level entity that unifies all pipeline phases into a single project record. Contains denormalized summary metadata for list-view rendering, plus foreign keys to the phase-specific entities."
+    },
+    "relationships": [
+      "EstimationProject has one EstimationRequest",
+      "EstimationProject has one Estimate (nullable)",
+      "EstimationProject has one ReviewEstimate (nullable)",
+      "EstimationProject has one ExportDashboard (nullable)"
+    ]
+  },
+  "projects": [
+    {
+      "id": "proj-001",
+      "name": "HealthBridge Patient Portal",
+      "description": "Telehealth platform with appointment scheduling, secure messaging, and medical records access",
+      "status": "estimated",
+      "currentPhase": "export",
+      "pipelineProgress": {
+        "ingestion": "completed",
+        "estimation": "completed",
+        "review": "completed",
+        "export": "completed"
+      },
+      "featureCount": 8,
+      "totalHours": { "low": 640, "likely": 870, "high": 1100 },
+      "overallConfidence": 78,
+      "overallComplexity": "high",
+      "estimatedDurationWeeks": 15,
+      "estimationRequestId": "er-001",
+      "estimateId": "est-001",
+      "reviewId": "rev-001",
+      "exportId": "exp-001",
+      "sourceFormat": "pdf",
+      "createdBy": "Alex Morgan",
+      "createdAt": "2026-04-01T10:00:00Z",
+      "updatedAt": "2026-04-15T14:30:00Z",
+      "archivedAt": null
+    },
+    {
+      "id": "proj-002",
+      "name": "Analytics Dashboard",
+      "description": "Internal data visualization and reporting platform with custom chart builder",
+      "status": "in_review",
+      "currentPhase": "review",
+      "pipelineProgress": {
+        "ingestion": "completed",
+        "estimation": "completed",
+        "review": "current",
+        "export": "upcoming"
+      },
+      "featureCount": 6,
+      "totalHours": { "low": 280, "likely": 340, "high": 420 },
+      "overallConfidence": 65,
+      "overallComplexity": "medium",
+      "estimatedDurationWeeks": 10,
+      "estimationRequestId": "er-002",
+      "estimateId": "est-002",
+      "reviewId": "rev-002",
+      "exportId": null,
+      "sourceFormat": "docx",
+      "createdBy": "Alex Morgan",
+      "createdAt": "2026-04-05T09:00:00Z",
+      "updatedAt": "2026-04-28T16:45:00Z",
+      "archivedAt": null
+    },
+    {
+      "id": "proj-003",
+      "name": "E-commerce Marketplace",
+      "description": "Full-featured marketplace with vendor management and payment processing",
+      "status": "estimating",
+      "currentPhase": "estimation",
+      "pipelineProgress": {
+        "ingestion": "completed",
+        "estimation": "current",
+        "review": "upcoming",
+        "export": "upcoming"
+      },
+      "featureCount": 14,
+      "totalHours": null,
+      "overallConfidence": null,
+      "overallComplexity": null,
+      "estimatedDurationWeeks": null,
+      "estimationRequestId": "er-003",
+      "estimateId": "est-003",
+      "reviewId": null,
+      "exportId": null,
+      "sourceFormat": "markdown",
+      "createdBy": "Carlos Mendez",
+      "createdAt": "2026-04-20T11:30:00Z",
+      "updatedAt": "2026-04-27T09:15:00Z",
+      "archivedAt": null
+    },
+    {
+      "id": "proj-004",
+      "name": "Internal CRM Tool",
+      "description": "Lightweight CRM for the sales team with pipeline tracking",
+      "status": "draft",
+      "currentPhase": "ingestion",
+      "pipelineProgress": {
+        "ingestion": "current",
+        "estimation": "upcoming",
+        "review": "upcoming",
+        "export": "upcoming"
+      },
+      "featureCount": 0,
+      "totalHours": null,
+      "overallConfidence": null,
+      "overallComplexity": null,
+      "estimatedDurationWeeks": null,
+      "estimationRequestId": "er-004",
+      "estimateId": null,
+      "reviewId": null,
+      "exportId": null,
+      "sourceFormat": "form",
+      "createdBy": "Alex Morgan",
+      "createdAt": "2026-04-26T08:00:00Z",
+      "updatedAt": "2026-04-26T08:12:00Z",
+      "archivedAt": null
+    },
+    {
+      "id": "proj-005",
+      "name": "API Gateway Service",
+      "description": "Centralized API gateway with rate limiting, auth, and monitoring",
+      "status": "archived",
+      "currentPhase": "export",
+      "pipelineProgress": {
+        "ingestion": "completed",
+        "estimation": "completed",
+        "review": "completed",
+        "export": "completed"
+      },
+      "featureCount": 3,
+      "totalHours": { "low": 80, "likely": 110, "high": 140 },
+      "overallConfidence": 85,
+      "overallComplexity": "low",
+      "estimatedDurationWeeks": 4,
+      "estimationRequestId": "er-005",
+      "estimateId": "est-005",
+      "reviewId": "rev-005",
+      "exportId": "exp-005",
+      "sourceFormat": "pdf",
+      "createdBy": "Carlos Mendez",
+      "createdAt": "2026-03-10T10:00:00Z",
+      "updatedAt": "2026-03-28T11:00:00Z",
+      "archivedAt": "2026-04-05T09:00:00Z"
+    }
+  ]
+}

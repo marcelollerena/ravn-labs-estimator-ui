@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react'
 import { Upload, FileText, ClipboardPaste, FormInput, Plus, X } from 'lucide-react'
-import { PageHeader } from '../../shell/components/PageHeader'
+import { PageHeader } from '../../../shell/components/PageHeader'
 import type { StructuredFormInput } from '../types'
 
 interface IntakeViewProps {
